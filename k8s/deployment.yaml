@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: food-quality-dashboard
+  labels:
+    app: food-quality-dashboard
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: food-quality-dashboard
+  template:
+    metadata:
+      labels:
+        app: food-quality-dashboard
+    spec:
+      containers:
+        - name: food-quality-dashboard
+          image: your-docker-registry/real-time-food-quality:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: THRESHOLDS_TEMPERATURE
+              value: "8.0"
+            - name: THRESHOLDS_HUMIDITY
+              value: "50.0"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
