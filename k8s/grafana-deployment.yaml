@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:latest # Use a specific version in production
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: grafana-datasources-volume
+              mountPath: /etc/grafana/provisioning/datasources
+            # Optional: Mount storage for Grafana data (dashboards, etc.)
+            # - name: grafana-storage-volume
+            #   mountPath: /var/lib/grafana
+      volumes:
+        - name: grafana-datasources-volume
+          configMap:
+            name: grafana-datasources
+        # Optional: Define storage volume
+        # - name: grafana-storage-volume
+        #   emptyDir: {} # Or use a PersistentVolume for production

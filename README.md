@@ -15,6 +15,7 @@ A modular, reactive Spring Boot application that simulates sensor data, processe
 7. [Container & Kubernetes](#container--kubernetes)
 8. [Testing](#testing)
 9. [Configuration](#configuration)
+10. [Monitoring](#monitoring)
 
 ---
 
@@ -26,8 +27,9 @@ This project demonstrates a real‑time monitoring demo focusing on:
 - **Logical modularity** across three modules
 - **Anomaly detection** based on configurable thresholds
 - **Docker & Kubernetes** deployment manifests for cloud‑native support
+- **Monitoring** with Prometheus and Grafana via Spring Boot Actuator
 
-The application generates mock sensor events (temperature & humidity), streams them reactively, filters anomalies, and serves Server‑Sent Events (SSE) to a React/Tailwind dashboard.
+The application generates mock sensor events (temperature & humidity), streams them reactively, filters anomalies, and serves Server‑Sent Events (SSE) to a React/Tailwind dashboard. It also exposes metrics for Prometheus scraping.
 
 ---
 
@@ -60,6 +62,7 @@ classDiagram
 - **Reactive Bridge**: Provides a multicast sink and `Flux` to decouple producer & consumer.
 - **Quality Monitor**: Subscribes to the `Flux`, filters events exceeding thresholds, logs anomalies.
 - **Web Layer**: SSE controller maps `SensorEvent` to `ServerSentEvent` for the frontend.
+- **Monitoring**: Spring Boot Actuator exposes application metrics (including health and Prometheus format) at `/actuator`.
 
 ---
 
@@ -130,12 +133,28 @@ Build Docker image:
 docker build -t your-registry/real-time-food-quality:latest .
 ```
 
-Apply Kubernetes manifests:
+Apply Kubernetes manifests for the application:
 
 ```bash
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
 ```
+
+Apply Kubernetes manifests for Prometheus and Grafana:
+
+```bash
+# Prometheus
+kubectl apply -f k8s/prometheus-configmap.yaml
+kubectl apply -f k8s/prometheus-deployment.yaml
+kubectl apply -f k8s/prometheus-service.yaml
+
+# Grafana (includes Prometheus datasource config)
+kubectl apply -f k8s/grafana-datasources-configmap.yaml
+kubectl apply -f k8s/grafana-deployment.yaml
+kubectl apply -f k8s/grafana-service.yaml
+```
+
+Access Grafana via its LoadBalancer service (check `kubectl get svc grafana-service`). Prometheus scrapes metrics from the application service automatically based on the configuration in `prometheus-configmap.yaml`.
 
 ---
 
@@ -163,6 +182,34 @@ thresholds:
   temperature: 8.0
   humidity: 50.0
 ```
+
+Actuator endpoints are configured in the same file:
+
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus" # Expose health, info, and prometheus endpoints
+  endpoint:
+    health:
+      show-details: always # Show full health details
+```
+
+---
+
+## Monitoring
+
+The application integrates with Spring Boot Actuator to expose operational information. Key endpoints include:
+
+- `/actuator/health`: Shows application health status.
+- `/actuator/info`: Displays application information.
+- `/actuator/prometheus`: Provides metrics in Prometheus format.
+
+The provided Kubernetes manifests (`k8s/`) include configurations for:
+
+- **Prometheus**: Scrapes the `/actuator/prometheus` endpoint of the application pods.
+- **Grafana**: Pre-configured with Prometheus as a data source, allowing visualization of the collected metrics. Access Grafana via its service (`grafana-service`).
 
 ---
 
