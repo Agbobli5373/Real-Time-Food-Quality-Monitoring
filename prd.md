@@ -13,8 +13,6 @@ This document outlines the requirements for a **demonstration project** designed
 This project is built for learning purposes and specifically to demonstrate relevant technical skills for an application to Picnic Technologies. It intentionally simplifies aspects like external dependencies and deployment to focus on the reactive processing core and clean internal structure. It aligns conceptually with the principles promoted by frameworks like **Spring Modulith**, emphasizing well-defined boundaries between logical modules within a single deployment unit, even though it may not utilize the full runtime enforcement capabilities of Spring Modulith for this focused demo.
 
 ### Target Audience
-
-*   Interviewer / Technical Reviewer at Picnic Technologies
 *   Developer (Self-learning and demonstration)
 
 ## II. Project Overview
@@ -41,12 +39,6 @@ To clearly demonstrate the effective use of reactive streams (Project Reactor) w
 *   **Logging:** SLF4j + Logback (default in Spring Boot)
 *   **(Conceptual Alignment):** Spring Modulith principles (logical modularity, clear boundaries).
 
-## IV. User Stories (Conceptual & Reviewer Focused)
-
-*   **As a reviewer,** I want to see how Project Reactor can process a continuous stream of simulated sensor events originating from a scheduled task.
-*   **As a reviewer,** I want to observe how reactive operators (e.g., `filter`, `doOnNext`, `map`) are correctly applied to implement anomaly detection logic based on defined rules.
-*   **As a reviewer,** I want to understand how the application is structured into clearly decoupled logical modules (`application`, `sensor-simulator`, `quality-monitor`) using standard Java build tools, reflecting principles similar to those encouraged by Spring Modulith.
-*   **As an operations manager (conceptually),** I want anomalies (like temperature thresholds being breached in simulated data) to be immediately identified and logged by the system for potential action visibility.
 
 ## V. Functional Requirements (Demo Scope)
 
