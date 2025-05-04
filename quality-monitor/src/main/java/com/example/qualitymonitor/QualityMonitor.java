@@ -9,8 +9,29 @@ import reactor.core.publisher.Flux;
 
 import jakarta.annotation.PostConstruct;
 
+
 /**
- * Subscribes to the sensor event flux and logs anomalies based on thresholds.
+ * Component responsible for monitoring real-time sensor events and detecting anomalies
+ * based on configurable temperature and humidity thresholds.
+ * <p>
+ * Subscribes to a stream of {@link SensorEvent} objects and logs a warning whenever
+ * an event exceeds the specified temperature threshold or falls below the humidity threshold.
+ * </p>
+ *
+ * <p>
+ * Configuration properties:
+ * <ul>
+ * <li><b>thresholds.temperature</b> - The temperature threshold for anomaly detection.</li>
+ * <li><b>thresholds.humidity</b> - The humidity threshold for anomaly detection.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Usage: This component is automatically started after construction and does not require
+ * manual invocation.
+ * </p>
+ *
+ * @author Isaac Agbobli
  */
 @Component
 public class QualityMonitor {
