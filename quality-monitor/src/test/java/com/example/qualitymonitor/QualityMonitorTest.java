@@ -150,7 +150,7 @@ class QualityMonitorTest {
         // We can't easily test the logger output with StepVerifier, but we can verify
         // that only the anomalous events pass through the filter
         StepVerifier.create(Flux.just(event1, event2, event3, event4)
-                .filter(event -> event.getTemperature() > 8.0 || event.getHumidity() < 50.0))
+                .filter(event -> event.temperature() > 8.0 || event.humidity() < 50.0))
                 .expectNext(event2) // High temp
                 .expectNext(event3) // Low humidity
                 .expectNext(event4) // Both anomalies

@@ -19,10 +19,10 @@ class SensorEventTest {
         SensorEvent event = new SensorEvent(deviceId, timestamp, temperature, humidity);
 
         // Assert
-        assertEquals(deviceId, event.getDeviceId(), "Device ID should match");
-        assertEquals(timestamp, event.getTimestamp(), "Timestamp should match");
-        assertEquals(temperature, event.getTemperature(), "Temperature should match");
-        assertEquals(humidity, event.getHumidity(), "Humidity should match");
+        assertEquals(deviceId, event.deviceId(), "Device ID should match");
+        assertEquals(timestamp, event.timestamp(), "Timestamp should match");
+        assertEquals(temperature, event.temperature(), "Temperature should match");
+        assertEquals(humidity, event.humidity(), "Humidity should match");
     }
 
     @Test

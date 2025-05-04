@@ -33,13 +33,13 @@ public class QualityMonitor {
     @PostConstruct
     public void startMonitoring() {
         eventFlux
-            .filter(event -> event.getTemperature() > temperatureThreshold
-                          || event.getHumidity() < humidityThreshold)
+            .filter(event -> event.temperature() > temperatureThreshold
+                          || event.humidity() < humidityThreshold)
             .doOnNext(event -> logger.warn(
                 "ALERT: Anomaly detected for device {} – temp={}°C, humidity={}%",
-                event.getDeviceId(),
-                event.getTemperature(),
-                event.getHumidity()))
+                event.deviceId(),
+                event.temperature(),
+                event.humidity()))
             .subscribe();
     }
 }
