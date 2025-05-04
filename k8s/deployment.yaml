@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: food-quality-dashboard
-          image: your-docker-registry/real-time-food-quality:latest
+          image: agbobliisaac/real-time-food-quality:latest
           ports:
             - containerPort: 8080
           env:

@@ -130,7 +130,7 @@ Open browser at `http://localhost:8080` (serves the React dashboard).
 Build Docker image:
 
 ```bash
-docker build -t your-registry/real-time-food-quality:latest .
+docker build -t agbobliisaac/real-time-food-quality:latest .
 ```
 
 Apply Kubernetes manifests for the application:
