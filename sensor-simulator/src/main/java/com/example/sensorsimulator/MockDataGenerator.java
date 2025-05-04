@@ -12,6 +12,23 @@ import java.util.UUID;
 /**
  * Generates mock SensorEvent data at a fixed interval and publishes to the reactive sink.
  */
+/**
+ * MockDataGenerator is a Spring component responsible for generating and publishing mock sensor data events
+ * at a fixed interval. It uses a {@link Sinks.Many} to emit {@link SensorEvent} objects containing randomly
+ * generated temperature and humidity values.
+ *
+ * <p>
+ * The temperature is randomly generated between 5 and 20 degrees, and the humidity is randomly generated
+ * between 30 and 100 percent. Each event is assigned a unique identifier and the current timestamp.
+ * </p>
+ *
+ * <p>
+ * The {@link #publishEvent()} method is scheduled to run every 5 seconds, emitting a new event to the sink.
+ * </p>
+ *
+ * @author Isaac Agbobli
+ * @version 1.0
+ */
 @Component
 public class MockDataGenerator {
 
