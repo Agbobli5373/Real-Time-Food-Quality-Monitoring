@@ -25,7 +25,7 @@ import reactor.core.publisher.Flux;
  * <p>
  * Example usage:
  * <pre>
- * curl http://localhost:8080/events/stream
+ * curl <a href="http://localhost:8080/events/stream">...</a>
  * </pre>
  * </p>
  */
